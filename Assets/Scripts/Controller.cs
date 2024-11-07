@@ -13,7 +13,8 @@ public class Controller : MonoBehaviour
 
     private CharacterController characterController;
     private Camera mainCamera;
-    private PlayerInputHandler inputHandler;
+
+    [SerializeField] private PlayerInputHandler inputHandler;
 
     private Transform targetObject;
 
@@ -27,6 +28,8 @@ public class Controller : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         mainCamera = Camera.main;
         inputHandler = PlayerInputHandler.Instance;
+
+        Debug.Log(inputHandler == null);
     }
 
     private void FixedUpdate()
@@ -38,10 +41,14 @@ public class Controller : MonoBehaviour
     {
         HandleRotation();
 
-        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out var hitInfo, interactionDistance) && !hitInfo.collider.gameObject.isStatic) 
+        if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out var hitInfo, interactionDistance) && !hitInfo.collider.gameObject.isStatic)
         {
-            targetObject = hitInfo.transform;
-            Debug.Log(targetObject.name + "\t" + Vector3.Distance(targetObject.transform.position, transform.position));
+            //Debug.Log(inputHandler.InteractInput);
+            if (inputHandler.InteractInput)
+            {
+                targetObject = hitInfo.transform;
+                Debug.Log(targetObject.name + "\t" + Vector3.Distance(targetObject.transform.position, transform.position));
+            }
         }
     }
 
