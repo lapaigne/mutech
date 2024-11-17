@@ -15,7 +15,7 @@ public class PlayerInputHandler : MonoBehaviour
 
     private InputAction moveAction;
     private InputAction lookAction;
-    private InputAction interactAction;
+    public InputAction interactAction;
 
     public Vector2 MoveInput {  get; private set; }
     public Vector2 LookInput { get; private set; }
@@ -48,13 +48,6 @@ public class PlayerInputHandler : MonoBehaviour
 
         lookAction.performed += context => LookInput = context.ReadValue<Vector2>();
         lookAction.canceled += context => LookInput = Vector2.zero;
-
-        interactAction.performed += context => InteractInput = true;
-        interactAction.canceled += context =>
-        {
-            InteractInput = false;
-            Debug.Log("canceled");
-        };
     }
 
     private void OnEnable()

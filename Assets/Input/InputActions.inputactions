@@ -25,12 +25,12 @@
                 },
                 {
                     "name": "Interact",
-                    "type": "Value",
+                    "type": "Button",
                     "id": "65366098-1a34-491c-b56a-90c045325a07",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
-                    "initialStateCheck": true
+                    "initialStateCheck": false
                 }
             ],
             "bindings": [

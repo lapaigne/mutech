@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class Controller : MonoBehaviour
 {
@@ -28,8 +29,16 @@ public class Controller : MonoBehaviour
         characterController = GetComponent<CharacterController>();
         mainCamera = Camera.main;
         inputHandler = PlayerInputHandler.Instance;
+    }
 
-        Debug.Log(inputHandler == null);
+    private void OnEnable()
+    {
+        inputHandler.interactAction.performed += OnInteract;
+    }
+
+    private void OnDisable()
+    {
+        inputHandler.interactAction.performed -= OnInteract;
     }
 
     private void FixedUpdate()
@@ -39,20 +48,24 @@ public class Controller : MonoBehaviour
 
     private void LateUpdate()
     {
-        HandleRotation();
+        HandleRotation(); 
+    }
 
+    public void OnInteract(InputAction.CallbackContext context)
+    {
         if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out var hitInfo, interactionDistance) && !hitInfo.collider.gameObject.isStatic)
         {
-            //Debug.Log(inputHandler.InteractInput);
-            if (inputHandler.InteractInput)
+            targetObject = hitInfo.transform;
+
+            if (targetObject.TryGetComponent(out IInteractable interactable))
             {
-                targetObject = hitInfo.transform;
-                Debug.Log(targetObject.name + "\t" + Vector3.Distance(targetObject.transform.position, transform.position));
+                Debug.Log("Interacted");
+                interactable.Interact();
             }
         }
     }
 
-    void HandleMovement()
+    public void HandleMovement()
     {
         Vector3 inputDirection = new Vector3(inputHandler.MoveInput.x, 0f, inputHandler.MoveInput.y);
         Vector3 worldDirection  = transform.TransformDirection(inputDirection);
@@ -73,7 +86,7 @@ public class Controller : MonoBehaviour
         characterController.Move(currentMovement * Time.deltaTime);
     }
 
-    void HandleRotation()
+    public void HandleRotation()
     {
         float mouseXRotation = inputHandler.LookInput.x * mouseSensitivity;
         transform.Rotate(0, mouseXRotation, 0);
