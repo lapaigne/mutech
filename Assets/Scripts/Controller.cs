@@ -34,11 +34,13 @@ public class Controller : MonoBehaviour
     private void OnEnable()
     {
         inputHandler.interactAction.performed += OnInteract;
+        inputHandler.quitAction.performed += OnQuit;
     }
 
     private void OnDisable()
     {
         inputHandler.interactAction.performed -= OnInteract;
+        inputHandler.quitAction.performed -= OnQuit;
     }
 
     private void FixedUpdate()
@@ -51,6 +53,11 @@ public class Controller : MonoBehaviour
         HandleRotation(); 
     }
 
+    public void OnQuit(InputAction.CallbackContext context)
+    {
+        Debug.Log("Quit");
+        Application.Quit();
+    }
     public void OnInteract(InputAction.CallbackContext context)
     {
         if (Physics.Raycast(mainCamera.transform.position, mainCamera.transform.forward, out var hitInfo, interactionDistance) && !hitInfo.collider.gameObject.isStatic)

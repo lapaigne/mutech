@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class GameManager : MonoBehaviour
 {
@@ -9,6 +10,7 @@ public class GameManager : MonoBehaviour
 
     private void Awake()
     {
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
         if (Instance != null)
         {
             Destroy(gameObject);

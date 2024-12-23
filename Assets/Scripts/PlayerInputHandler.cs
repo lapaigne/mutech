@@ -12,14 +12,15 @@ public class PlayerInputHandler : MonoBehaviour
     private string movement = "Movement";
     private string look = "Look";
     private string interact = "Interact";
+    private string quit = "Quit";
 
     private InputAction moveAction;
     private InputAction lookAction;
+    public InputAction quitAction;
     public InputAction interactAction;
 
     public Vector2 MoveInput {  get; private set; }
     public Vector2 LookInput { get; private set; }
-    public bool InteractInput { get ; private set; }
 
     public static PlayerInputHandler Instance { get; private set; } 
 
@@ -38,6 +39,7 @@ public class PlayerInputHandler : MonoBehaviour
         moveAction = PlayerControls.FindActionMap(actionMapName).FindAction(movement);
         lookAction = PlayerControls.FindActionMap(actionMapName).FindAction(look);
         interactAction = PlayerControls.FindActionMap(actionMapName).FindAction(interact);
+        quitAction = PlayerControls.FindActionMap(actionMapName).FindAction(quit);
         RegisterInputActions();
     }
 
@@ -55,6 +57,7 @@ public class PlayerInputHandler : MonoBehaviour
         moveAction.Enable();
         lookAction.Enable();
         interactAction.Enable();
+        quitAction.Enable();
     }
 
     private void OnDisable()
@@ -62,5 +65,6 @@ public class PlayerInputHandler : MonoBehaviour
         moveAction.Disable();
         lookAction.Disable();
         interactAction.Disable();
+        quitAction.Disable();
     }
 }
